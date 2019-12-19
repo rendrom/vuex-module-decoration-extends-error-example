@@ -4,6 +4,10 @@ import store from '../';
 class FirstState extends VuexModule {
   items: number[] = [];
 
+  // This property name is not allowed
+  // comment to avoid error
+  store: any = [];
+
   @Action({ commit: 'SET_ITEMS' })
   async getItems() {
     if (this.items.length) {
@@ -50,7 +54,7 @@ export class SecondState extends FirstState {
 }
 
 
-@Module({ name: "app", namespaced: true })
+@Module({ name: "app", namespaced: true, dynamic: true, store })
 export class AppState extends SecondState {
 
 
@@ -67,6 +71,6 @@ export class AppState extends SecondState {
 // Copy parent getters to child
 // Object.assign(AppState.getters, base.getters);
 // Manually register module
-store.registerModule('app', AppState);
+// store.registerModule('app', AppState);
 
 export const appModule = getModule(AppState, store);
